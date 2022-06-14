@@ -27,7 +27,7 @@ namespace ASPDotNet_Cinema.Models
         
         [Required]
         [Range(1, int.MaxValue)]
-        public int Length { get; set; }
+        public int Duration { get; set; }
 
         public ICollection<Screening> Screenings { get; set; }  // collection navigation property. Voor het geval dat we alle voorstellingen van een film willen opvragen
 

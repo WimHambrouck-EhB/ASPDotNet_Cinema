@@ -45,7 +45,16 @@ namespace ASPDotNet_Cinema.Controllers
                 return NotFound();
             }
 
-            return View(movie);
+            if (User.IsInRole(CinemaUser.STAFF_ROLE))
+            {
+                // staff members can view Detail with Edit options
+                return View();
+            }
+            else
+            {
+                // regular users get a slimmed down version of the page that directs back to /Home
+                return View("MovieDetails", movie);
+            }
         }
 
         // GET: Movies/Create
@@ -59,7 +68,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Ranking,Director,Length")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Title,Ranking,Director,Duration")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +100,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Ranking,Director,Length")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Ranking,Director,Duration")] Movie movie)
         {
             if (id != movie.Id)
             {

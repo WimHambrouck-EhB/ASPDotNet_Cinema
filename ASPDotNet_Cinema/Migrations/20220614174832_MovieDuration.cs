@@ -2,7 +2,7 @@
 
 namespace ASPDotNet_Cinema.Migrations
 {
-    public partial class MovieLength : Migration
+    public partial class MovieDuration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace ASPDotNet_Cinema.Migrations
                 table: "Screenings");
 
             migrationBuilder.AddColumn<int>(
-                name: "Length",
+                name: "Duration",
                 table: "Movies",
                 nullable: false,
                 defaultValue: 0);
@@ -20,7 +20,7 @@ namespace ASPDotNet_Cinema.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Length",
+                name: "Duration",
                 table: "Movies");
 
             migrationBuilder.AddColumn<int>(

@@ -94,7 +94,7 @@ namespace ASPDotNet_Cinema.Migrations
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Length")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Ranking")

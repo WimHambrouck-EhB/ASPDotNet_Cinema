@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPDotNet_Cinema.Migrations
 {
     [DbContext(typeof(CinemaIdentityContext))]
-    [Migration("20220614152903_MovieLength")]
-    partial class MovieLength
+    [Migration("20220614174832_MovieDuration")]
+    partial class MovieDuration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,7 +96,7 @@ namespace ASPDotNet_Cinema.Migrations
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Length")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Ranking")

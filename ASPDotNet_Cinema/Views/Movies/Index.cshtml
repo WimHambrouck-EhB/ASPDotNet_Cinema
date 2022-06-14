@@ -21,7 +21,7 @@
                 @Html.DisplayNameFor(model => model.Director)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Length)
+                @Html.DisplayNameFor(model => model.Duration)
             </th>
             <th></th>
         </tr>
@@ -41,7 +41,7 @@
                 </td>
                 <td>
                     @{
-                        TimeSpan timeSpan = new TimeSpan(0, item.Length, 0);
+                        TimeSpan timeSpan = new TimeSpan(0, item.Duration, 0);
                     }
                     @timeSpan.ToString(@"h\hmm\m")
                 </td>
