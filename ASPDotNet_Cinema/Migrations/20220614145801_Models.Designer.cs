@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPDotNet_Cinema.Migrations
 {
     [DbContext(typeof(CinemaIdentityContext))]
-    [Migration("20220614120954_Models")]
+    [Migration("20220614145801_Models")]
     partial class Models
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,7 +133,7 @@ namespace ASPDotNet_Cinema.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaxSeats")
+                    b.Property<int>("Capacity")
                         .HasColumnType("int");
 
                     b.HasKey("Number");

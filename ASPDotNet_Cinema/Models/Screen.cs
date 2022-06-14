@@ -12,7 +12,7 @@ namespace ASPDotNet_Cinema.Models
 
         [Required]
         [Range(1, int.MaxValue)]
-        public int MaxSeats { get; set; }
+        public int Capacity { get; set; }
 
         public ICollection<Screening> Screenings { get; set; }  // collection navigation property. Voor het geval dat we alle voorstellingen in deze zaal willen opvragen
     }

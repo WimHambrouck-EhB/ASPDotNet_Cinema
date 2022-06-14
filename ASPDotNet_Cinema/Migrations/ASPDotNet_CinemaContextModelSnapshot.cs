@@ -131,7 +131,7 @@ namespace ASPDotNet_Cinema.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaxSeats")
+                    b.Property<int>("Capacity")
                         .HasColumnType("int");
 
                     b.HasKey("Number");

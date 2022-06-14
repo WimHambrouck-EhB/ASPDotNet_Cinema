@@ -27,6 +27,14 @@ namespace ASPDotNet_Cinema
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // workaround: request culture op US zetten, anders faalt de validatie op kommagetallen
+            // andere optie is eigen request mapping logica voorzien
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US");
+            }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +50,8 @@ namespace ASPDotNet_Cinema
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseRequestLocalization(); // workaround kommagetallen
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

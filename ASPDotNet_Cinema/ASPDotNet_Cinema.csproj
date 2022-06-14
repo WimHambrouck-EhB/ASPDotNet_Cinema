@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20220614115355_Models.Designer.cs" />
     <Compile Remove="Migrations\20220614115516_Models.cs" />
     <Compile Remove="Migrations\20220614115516_Models.Designer.cs" />
+    <Compile Remove="Migrations\20220614120954_Models.cs" />
+    <Compile Remove="Migrations\20220614120954_Models.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

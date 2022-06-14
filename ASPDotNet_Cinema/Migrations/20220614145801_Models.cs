@@ -27,7 +27,7 @@ namespace ASPDotNet_Cinema.Migrations
                 columns: table => new
                 {
                     Number = table.Column<int>(nullable: false),
-                    MaxSeats = table.Column<int>(nullable: false)
+                    Capacity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
