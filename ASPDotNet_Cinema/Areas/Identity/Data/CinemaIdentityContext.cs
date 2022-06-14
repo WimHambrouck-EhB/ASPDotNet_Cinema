@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASPDotNet_Cinema.Areas.Identity.Data;
+using ASPDotNet_Cinema.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +20,11 @@ namespace ASPDotNet_Cinema.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Screen> Screens { get; set; }
+        public DbSet<Screening> Screenings { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }

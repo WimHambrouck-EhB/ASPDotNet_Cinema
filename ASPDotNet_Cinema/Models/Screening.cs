@@ -18,6 +18,5 @@ namespace ASPDotNet_Cinema.Models
         [Range(1, int.MaxValue)]
         public int Length { get; set; }
         public DateTime EndTime => StartTime.AddMinutes(Length);
-
     }
 }

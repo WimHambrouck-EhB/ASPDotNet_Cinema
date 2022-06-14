@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ASPDotNet_Cinema.Data;
 
 namespace ASPDotNet_Cinema
 {
@@ -36,7 +38,7 @@ namespace ASPDotNet_Cinema
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Movies/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -52,7 +54,7 @@ namespace ASPDotNet_Cinema
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Movies}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

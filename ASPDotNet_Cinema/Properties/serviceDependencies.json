@@ -3,6 +3,10 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:ASPDotNet_CinemaContextConnection"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:ASPDotNet_CinemaContext"
     }
   }
 }
