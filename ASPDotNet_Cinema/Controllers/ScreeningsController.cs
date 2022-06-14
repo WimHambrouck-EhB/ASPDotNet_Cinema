@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPDotNet_Cinema.Data;
 using ASPDotNet_Cinema.Models;
+using Microsoft.AspNetCore.Authorization;
+using ASPDotNet_Cinema.Areas.Identity.Data;
 
 namespace ASPDotNet_Cinema.Controllers
 {
+    [Authorize(Roles = CinemaUser.STAFF_ROLE)]
     public class ScreeningsController : Controller
     {
         private readonly CinemaIdentityContext _context;

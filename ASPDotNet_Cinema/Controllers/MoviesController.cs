@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using ASPDotNet_Cinema.Data;
 using ASPDotNet_Cinema.Models;
 using System.Diagnostics;
+using ASPDotNet_Cinema.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPDotNet_Cinema.Controllers
 {
@@ -23,7 +25,14 @@ namespace ASPDotNet_Cinema.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movies.ToListAsync());
+            if (User.IsInRole(CinemaUser.STAFF_ROLE))
+            {
+                return View("AdminIndex", await _context.Movies.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Movies.ToListAsync());
+            }
         }
 
         // GET: Movies/Details/5
@@ -45,6 +54,7 @@ namespace ASPDotNet_Cinema.Controllers
         }
 
         // GET: Movies/Create
+        [Authorize(Roles = CinemaUser.STAFF_ROLE)]
         public IActionResult Create()
         {
             return View();
@@ -55,6 +65,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = CinemaUser.STAFF_ROLE)]
         public async Task<IActionResult> Create([Bind("Title,Ranking,Director,Length")] Movie movie)
         {
             if (ModelState.IsValid)
@@ -67,6 +78,7 @@ namespace ASPDotNet_Cinema.Controllers
         }
 
         // GET: Movies/Edit/5
+        [Authorize(Roles = CinemaUser.STAFF_ROLE)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +99,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = CinemaUser.STAFF_ROLE)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Ranking,Director,Length")] Movie movie)
         {
             if (id != movie.Id)
@@ -118,6 +131,7 @@ namespace ASPDotNet_Cinema.Controllers
         }
 
         // GET: Movies/Delete/5
+        [Authorize(Roles = CinemaUser.STAFF_ROLE)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +152,7 @@ namespace ASPDotNet_Cinema.Controllers
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = CinemaUser.STAFF_ROLE)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var movie = await _context.Movies.FindAsync(id);

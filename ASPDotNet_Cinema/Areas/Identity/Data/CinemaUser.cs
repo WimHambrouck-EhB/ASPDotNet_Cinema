@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ASPDotNet_Cinema.Areas.Identity.Data
 {
-    // Add profile data for application users by adding properties to the ASPDotNet_Gebruiker class
+
     public class CinemaUser : IdentityUser
     {
+        public const string STAFF_ROLE = "Staff";
+
     }
 }
