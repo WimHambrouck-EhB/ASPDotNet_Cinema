@@ -8,6 +8,7 @@ namespace ASPDotNet_Cinema.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]       // Geen auto increment, we wijzen zelf een zaalnummer toe
+        [Range(1, int.MaxValue)]
         public int Number { get; set; }
 
         [Required]

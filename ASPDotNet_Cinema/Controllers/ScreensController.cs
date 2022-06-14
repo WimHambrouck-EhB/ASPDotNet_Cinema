@@ -54,7 +54,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Number,MaxSeats")] Screen screen)
+        public async Task<IActionResult> Create([Bind("Number,Capacity")] Screen screen)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Number,MaxSeats")] Screen screen)
+        public async Task<IActionResult> Edit(int id, [Bind("Number,Capacity")] Screen screen)
         {
             if (id != screen.Number)
             {
