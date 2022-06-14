@@ -49,6 +49,7 @@ namespace ASPDotNet_Cinema.Controllers
         }
 
         // GET: Reservations/Create
+        [AllowAnonymous]
         public IActionResult Create()
         {
             ViewData["ScreeningId"] = new SelectList(_context.Screenings, "Id", "Id");
@@ -60,6 +61,7 @@ namespace ASPDotNet_Cinema.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Create([Bind("Id,ScreeningId,Amount")] Reservation reservation)
         {
             if (ModelState.IsValid)

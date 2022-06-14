@@ -28,7 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Screen.Number)
+                @Html.DisplayFor(modelItem => item.ScreenId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Movie.Title)
@@ -40,7 +40,8 @@
                 @Html.DisplayFor(modelItem => item.EndTime)
             </td>
             <td>
-                <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
+                <a asp-controller="Reservations" asp-action="Create" asp-route-id="@item.MovieId">Order tickets</a> |
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">Details</a>
             </td>
         </tr>
 }

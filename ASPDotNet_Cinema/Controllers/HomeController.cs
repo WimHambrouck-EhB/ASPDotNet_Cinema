@@ -18,7 +18,10 @@ namespace ASPDotNet_Cinema.Controllers
         }
         public async Task<IActionResult>Index()
         {
-            return View(await _context.Screenings.ToListAsync());
+            var screenings = _context.Screenings
+                .Include(s => s.Movie)
+                ;
+            return View(await screenings.ToListAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -48,11 +48,11 @@ namespace ASPDotNet_Cinema.Controllers
             if (User.IsInRole(CinemaUser.STAFF_ROLE))
             {
                 // staff members can view Detail with Edit options
-                return View();
+                return View(movie);
             }
             else
             {
-                // regular users get a slimmed down version of the page that directs back to /Home
+                // regular users get an alternate version of the page
                 return View("MovieDetails", movie);
             }
         }

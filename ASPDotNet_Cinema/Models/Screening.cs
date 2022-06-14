@@ -17,6 +17,6 @@ namespace ASPDotNet_Cinema.Models
         public DateTime StartTime { get; set; }
 
         [DisplayName("End time")]
-        public DateTime EndTime => StartTime.AddMinutes(Movie?.Length ?? 0);
+        public DateTime EndTime => StartTime.AddMinutes(Movie?.Duration ?? 0);
     }
 }
