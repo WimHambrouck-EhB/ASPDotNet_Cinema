@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASPDotNet_Cinema.Migrations
 {
-    [DbContext(typeof(ASPDotNet_CinemaContext))]
+    [DbContext(typeof(CinemaIdentityContext))]
     partial class ASPDotNet_CinemaContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

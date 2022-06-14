@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASPDotNet_Cinema.Migrations
 {
-    [DbContext(typeof(ASPDotNet_CinemaContext))]
+    [DbContext(typeof(CinemaIdentityContext))]
     [Migration("20220613101411_Identity")]
     partial class Identity
     {

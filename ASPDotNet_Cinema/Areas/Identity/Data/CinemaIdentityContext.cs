@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ASPDotNet_Cinema.Data
 {
-    public class ASPDotNet_CinemaContext : IdentityDbContext<ASPDotNet_Gebruiker>
+    public class CinemaIdentityContext : IdentityDbContext<CinemaUser>
     {
-        public ASPDotNet_CinemaContext(DbContextOptions<ASPDotNet_CinemaContext> options)
+        public CinemaIdentityContext(DbContextOptions<CinemaIdentityContext> options)
             : base(options)
         {
         }

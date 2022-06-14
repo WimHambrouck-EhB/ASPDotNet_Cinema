@@ -16,12 +16,12 @@ namespace ASPDotNet_Cinema.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ASPDotNet_CinemaContext>(options =>
+                services.AddDbContext<CinemaIdentityContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("ASPDotNet_CinemaContextConnection")));
+                        context.Configuration.GetConnectionString("CinemaIdentityContextConnection")));
 
-                services.AddDefaultIdentity<ASPDotNet_Gebruiker>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<ASPDotNet_CinemaContext>();
+                services.AddDefaultIdentity<CinemaUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<CinemaIdentityContext>();
             });
         }
     }
