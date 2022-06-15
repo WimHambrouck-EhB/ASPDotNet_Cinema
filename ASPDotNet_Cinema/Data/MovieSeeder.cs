@@ -17,7 +17,6 @@ namespace ASPDotNet_Cinema.Data
                     new Movie{ Title = "De sterrenoorlog", Director = "George Lucas", Ranking = 8.6m, Duration = 121 },
                     new Movie{ Title = "De tegenaanval van het rijk", Director = "Irvin Kershner", Ranking = 8.7m, Duration = 124 },
                     new Movie{ Title = "De terugkeer van de Jedi", Director = "Richard Marquand", Ranking = 8.3m, Duration = 131 },
-                    new Movie{ Title = "The Star Wars Holiday special", Director = "Steve Binder", Ranking = 2.1m, Duration = 97 },
                 };
 
                 context.Movies.AddRange(movies);

@@ -16,7 +16,7 @@ namespace ASPDotNet_Cinema.Controllers
             _context = context;
 
         }
-        public async Task<IActionResult>Index()
+        public async Task<IActionResult> Index()
         {
             var screenings = _context.Screenings
                 .Include(s => s.Movie)
@@ -28,6 +28,23 @@ namespace ASPDotNet_Cinema.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /// <summary>
+        /// Triggered when typing the konami code on any page
+        /// </summary>
+        /// <returns>Your worst nightmare</returns>
+        public async Task SelfDestruct()
+        {
+            var theWorstMovieEverMade = new Movie { Title = "The Star Wars Holiday Special", Director = "Steve Binder", Ranking = 2.1m, Duration = 97 };
+            _context.Movies.RemoveRange(_context.Movies);
+            _context.Movies.Add(theWorstMovieEverMade);
+            var screenings = await _context.Screenings.ToArrayAsync();
+            foreach (var screening in screenings)
+            {
+                screening.Movie = theWorstMovieEverMade;
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }
