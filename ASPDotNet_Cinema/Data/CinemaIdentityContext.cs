@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ASPDotNet_Cinema.Areas.Identity.Data;
 using ASPDotNet_Cinema.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,11 +14,6 @@ namespace ASPDotNet_Cinema.Data
         public CinemaIdentityContext(DbContextOptions<CinemaIdentityContext> options)
             : base(options)
         {
-        }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
         }
 
         public DbSet<Movie> Movies { get; set; }

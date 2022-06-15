@@ -1,6 +1,6 @@
 ﻿using System;
-using ASPDotNet_Cinema.Areas.Identity.Data;
 using ASPDotNet_Cinema.Data;
+using ASPDotNet_Cinema.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -19,7 +19,7 @@ namespace ASPDotNet_Cinema.Areas.Identity
             {
                 services.AddDbContext<CinemaIdentityContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("CinemaIdentityContextConnection")));
+                        context.Configuration.GetConnectionString("CinemaIdentityContextConnection")).EnableSensitiveDataLogging());
 
                 services.AddDefaultIdentity<CinemaUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()

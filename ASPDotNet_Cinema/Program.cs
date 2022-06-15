@@ -25,7 +25,8 @@ namespace ASPDotNet_Cinema
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var userMgr = services.GetRequiredService<IConfiguration>();
+                    var context = services.GetRequiredService<CinemaIdentityContext>();
+                    MovieSeeder.Initialize(context).Wait();
                     UserAndRoleSeeder.Initialize(services).Wait();
                 }
                 catch (Exception ex)

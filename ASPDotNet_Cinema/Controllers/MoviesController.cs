@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using ASPDotNet_Cinema.Data;
 using ASPDotNet_Cinema.Models;
 using System.Diagnostics;
-using ASPDotNet_Cinema.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ASPDotNet_Cinema.Controllers
