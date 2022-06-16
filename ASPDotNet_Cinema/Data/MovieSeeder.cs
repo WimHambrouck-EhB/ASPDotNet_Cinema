@@ -10,8 +10,8 @@ namespace ASPDotNet_Cinema.Data
     {
         public static async Task Initialize(CinemaIdentityContext context)
         {
-            await context.Database.EnsureDeletedAsync();
-            await context.Database.MigrateAsync();
+            //await context.Database.EnsureDeletedAsync();
+            //await context.Database.MigrateAsync();
 
             if (!context.Movies.Any() && !context.Screens.Any() && !context.Screenings.Any())
             {

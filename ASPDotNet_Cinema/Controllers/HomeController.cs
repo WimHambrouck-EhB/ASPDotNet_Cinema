@@ -28,28 +28,30 @@ namespace ASPDotNet_Cinema.Controllers
                 dateRange = DateRange.Today;
             }
 
-            DateTime startOfWeek, endOfWeek;
+            DateTime startDate, endDate;
             DateTime currentDate = DateTime.Now;
             switch (dateRange.Value)
             {
                 case DateRange.ThisWeek:
-                    GetWeek(currentDate, out startOfWeek, out endOfWeek);
+                    GetWeekDates(currentDate, out startDate, out endDate);
+                    startDate = currentDate;    // films die al voorbij zijn niet tonen
                     break;
                 case DateRange.NextWeek:
-                    GetWeek(currentDate.AddDays(7), out startOfWeek, out endOfWeek);
+                    GetWeekDates(currentDate.AddDays(7), out startDate, out endDate);
                     break;
                 //case DateRange.CustomWeek:
                 //    GetWeek(currentDate.AddDays(customOffset), out startOfWeek, out endOfWeek);
+                //    //todo: checken of datum niet in het verleden ligt  
                 //    break;
                 case DateRange.Today:
                 default:
-                    startOfWeek = currentDate.Date;
-                    endOfWeek = startOfWeek.AddHours(23).AddMinutes(59);
+                    startDate = currentDate;
+                    endDate = startDate.AddHours(23).AddMinutes(59);
                     break;
             }
 
             var screenings = _context.Screenings.Include(s => s.Movie)
-                                                .Where(s => s.StartTime >= startOfWeek && s.StartTime < endOfWeek)
+                                                .Where(s => s.StartTime >= startDate && s.StartTime < endDate)
                                                 .OrderBy(s => s.StartTime);
 
 
@@ -61,7 +63,7 @@ namespace ASPDotNet_Cinema.Controllers
         /// </summary>
         /// <param name="startOfWeek">A <see cref="DateTime"/> with monday's date and time 00:00</param>
         /// <param name="endOfWeek">A <see cref="DateTime"/> with sundays's date and time 23:59</param>
-        private static void GetWeek(DateTime now, out DateTime startOfWeek, out DateTime endOfWeek)
+        private static void GetWeekDates(DateTime now, out DateTime startOfWeek, out DateTime endOfWeek)
         {
             var offset = DayOfWeek.Monday - now.DayOfWeek;
             startOfWeek = now.AddDays(offset).Date;                         // maandag 00u00

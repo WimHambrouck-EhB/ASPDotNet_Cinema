@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ASPDotNet_Cinema.Data;
 using ASPDotNet_Cinema.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace ASPDotNet_Cinema.Controllers
 {
@@ -15,10 +16,12 @@ namespace ASPDotNet_Cinema.Controllers
     public class ReservationsController : Controller
     {
         private readonly CinemaIdentityContext _context;
+        private readonly ILogger<ReservationsController> _logger;
 
-        public ReservationsController(CinemaIdentityContext context)
+        public ReservationsController(CinemaIdentityContext context, ILogger<ReservationsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Reservations
@@ -49,9 +52,18 @@ namespace ASPDotNet_Cinema.Controllers
 
         // GET: Reservations/Create
         [AllowAnonymous]
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? screeningId)
         {
-            ViewData["ScreeningId"] = new SelectList(_context.Screenings, "Id", "Id");
+            var screening = await _context.Screenings.FindAsync(screeningId);
+            if (screening == null || screening.StartTime < DateTime.Now)
+            {
+                return NotFound();
+            }
+
+            var screenings = _context.Screenings.Include(s => s.Movie)
+                                                .Where(s => s.StartTime >= DateTime.Now)
+                                                .OrderBy(s => s.StartTime);
+            ViewData["ScreeningId"] = new SelectList(screenings, "Id", "FullName", screeningId);
             return View();
         }
 
@@ -63,13 +75,58 @@ namespace ASPDotNet_Cinema.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Create([Bind("Id,ScreeningId,Amount")] Reservation reservation)
         {
+            var screening = await _context.Screenings
+                .Include(s => s.Screen)
+                .FirstOrDefaultAsync(s => s.Id == reservation.ScreeningId);
+
+            if (screening != null)
+            {
+                int amountOfReservationsForScreening = await _context.Reservations.Where(r => r.ScreeningId == reservation.ScreeningId).SumAsync(r => r.Amount);
+                int amountLeft = screening.Screen.Capacity - amountOfReservationsForScreening;
+                if (amountLeft - reservation.Amount < 0)
+                {
+                    string errorMessage;
+                    if (amountLeft == 0)
+                    {
+                        errorMessage = "There are no tickets left for this screening.";
+                    }
+                    else if (amountLeft == 1)
+                    {
+                        errorMessage = "There is only 1 ticket left for this screening.";
+                    }
+                    else
+                    {
+                        errorMessage = $"There are only {amountLeft} tickets left for this screening, please reduce the amount of tickets.";
+                    }
+                    ModelState.AddModelError("Amount", errorMessage);
+                }
+            }
+            else
+            {
+                // kan normaal niet gebeuren, maar voor de zekerheid toch even fout afhandelen
+                ModelState.AddModelError("ScreeningId", "Screening was not found. Try again or contact staff if this keeps happening.");
+                _logger.LogError("Tried to create Reservation for screening with id {0}, but could not find Screening in db.", reservation.ScreeningId);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole(CinemaUser.STAFF_ROLE))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return View("Confirmation", reservation);
+                }
             }
-            ViewData["ScreeningId"] = new SelectList(_context.Screenings, "Id", "Id", reservation.ScreeningId);
+
+            var screenings = _context.Screenings.Include(s => s.Movie)
+                                    .Where(s => s.StartTime >= DateTime.Now)
+                                    .OrderBy(s => s.StartTime);
+            ViewData["ScreeningId"] = new SelectList(screenings, "Id", "FullName", reservation.ScreeningId);
+
             return View(reservation);
         }
 

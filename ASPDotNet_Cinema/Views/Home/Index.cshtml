@@ -53,7 +53,7 @@ else
                         @Html.DisplayFor(modelItem => item.EndTime)
                     </td>
                     <td>
-                        <a asp-controller="Reservations" asp-action="Create" asp-route-id="@item.MovieId">Order tickets</a> |
+                        <a asp-controller="Reservations" asp-action="Create" asp-route-screeningid="@item.Id">Order tickets</a> |
                         <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">Details</a>
                     </td>
                 </tr>

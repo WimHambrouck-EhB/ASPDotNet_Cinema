@@ -4,8 +4,6 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
 <h4>Reservation</h4>
 <hr />
 <div class="row">
@@ -13,8 +11,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ScreeningId" class="control-label"></label>
-                <select asp-for="ScreeningId" class ="form-control" asp-items="ViewBag.ScreeningId"></select>
+                <label asp-for="Screening" class="control-label"></label>
+                <select asp-for="ScreeningId" class="form-control" asp-items="ViewBag.ScreeningId"></select>
+                <span asp-validation-for="ScreeningId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
@@ -29,9 +28,18 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole(CinemaUser.STAFF_ROLE))
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="Index">Back to Home</a>
+    }
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
