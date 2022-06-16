@@ -30,7 +30,7 @@ namespace ASPDotNet_Cinema.Areas.Identity.Data
                 // Wachtwoord in de broncode is uiteraard onveilig, maar is nu om het voorbeeld niet te complex te maken
                 // Normaal maak je gebruik van secrets:
                 // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows 
-                await userManager.CreateAsync(user, "&KMPcA7k");
+                await userManager.CreateAsync(user, "Eh)t*kA7");
 
 
                 if (!await roleManager.RoleExistsAsync(CinemaUser.STAFF_ROLE))
