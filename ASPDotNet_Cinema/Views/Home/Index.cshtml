@@ -1,49 +1,63 @@
-﻿@model IEnumerable<ASPDotNet_Cinema.Models.Screening>
+﻿@using ASPDotNet_Cinema.Enums
+@model ASPDotNet_Cinema.Models.ViewModels.HomeIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Screen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScreenId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Movie.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                <a asp-controller="Reservations" asp-action="Create" asp-route-id="@item.MovieId">Order tickets</a> |
-                <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">Details</a>
-            </td>
-        </tr>
+<h1>@Html.DisplayFor(model => model.Range)'s screenings</h1>
+<a asp-action="Index" asp-route-dateRange="@DateRange.Today" class="btn @(Model.Range == DateRange.Today ? "btn-info" : "btn-outline-info")">Today</a>
+<a asp-action="Index" asp-route-dateRange="@DateRange.ThisWeek" class="btn @(Model.Range == DateRange.ThisWeek ? "btn-info" : "btn-outline-info")">This week</a>
+<a asp-action="Index" asp-route-dateRange="@DateRange.NextWeek" class="btn @(Model.Range == DateRange.NextWeek ? "btn-info" : "btn-outline-info")">Next week</a>
+<br />
+<br />
+@if (Model.Screenings == null || !Model.Screenings.Any())
+{
+    <h2>No movies found for the selected date range.</h2>
 }
-    </tbody>
-</table>
+else
+{
+    var screening = Model.Screenings.First();
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => screening.Screen)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => screening.Movie)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => screening.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => screening.EndTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Screenings)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ScreenId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        <a asp-controller="Reservations" asp-action="Create" asp-route-id="@item.MovieId">Order tickets</a> |
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
