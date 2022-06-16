@@ -91,14 +91,14 @@ namespace ASPDotNet_Cinema.Controllers
                 .Where(s => s.StartTime >= startDate && s.StartTime < endDate)
                 ;
 
-            IOrderedQueryable<Screening> orderedScreenings = sortOrder switch
+            var orderedScreenings = sortOrder switch
             {
                 "MovieTitle" => screenings.OrderBy(s => s.Movie.Title),
                 "MovieTitle_desc" => screenings.OrderByDescending(s => s.Movie.Title),
                 "MovieRanking" => screenings.OrderBy(s => s.Movie.Ranking),
                 "MovieRanking_desc" => screenings.OrderByDescending(s => s.Movie.Ranking),
                 "StartTime_desc" => screenings.OrderByDescending(s => s.StartTime),
-                _ => screenings.OrderBy(s => s.StartTime),
+                _ => screenings.OrderBy(s => s.StartTime)
             };
 
             await orderedScreenings.ForEachAsync(screening =>

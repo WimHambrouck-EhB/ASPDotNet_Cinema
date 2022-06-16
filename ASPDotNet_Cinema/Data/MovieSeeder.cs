@@ -47,10 +47,10 @@ namespace ASPDotNet_Cinema.Data
 
                 var screenings = new Screening[]
                 {
-                    new Screening { ScreenId = 1, Movie = movies[0], StartTime = vanavond20u },//0
-                    new Screening { ScreenId = 2, Movie = movies[0], StartTime = vanavond22u },//1
-                    new Screening { ScreenId = 1, Movie = movies[1], StartTime = vanavond20u },//2
-                    new Screening { ScreenId = 3, Movie = movies[1], StartTime = vanavond23u },//3
+                    new Screening { ScreenId = 1, Movie = movies[0], StartTime = vanavond20u },
+                    new Screening { ScreenId = 2, Movie = movies[0], StartTime = vanavond22u },
+                    new Screening { ScreenId = 1, Movie = movies[1], StartTime = vanavond20u },
+                    new Screening { ScreenId = 3, Movie = movies[1], StartTime = vanavond23u },
                     new Screening { ScreenId = 1, Movie = movies[1], StartTime = morgen },
                     new Screening { ScreenId = 2, Movie = movies[2], StartTime = morgen },
                     new Screening { ScreenId = 2, Movie = movies[2], StartTime = overmorgen },
@@ -61,7 +61,7 @@ namespace ASPDotNet_Cinema.Data
 
                 context.Screenings.AddRange(screenings);
 
-                context.Reservations.Add(new Reservation { Screening = screenings[3], Amount = 15 });
+                context.Reservations.Add(new Reservation { Screening = screenings[1], Amount = 100 });
 
                 await context.SaveChangesAsync();
 
