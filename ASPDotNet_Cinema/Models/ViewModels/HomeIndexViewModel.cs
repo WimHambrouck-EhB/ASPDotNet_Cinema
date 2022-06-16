@@ -5,7 +5,7 @@ namespace ASPDotNet_Cinema.Models.ViewModels
 {
     public class HomeIndexViewModel
     {
-        public IEnumerable<Screening> Screenings { get; set; }
+        public IEnumerable<ScreeningWithSum> Screenings { get; set; }
         public DateRange Range { get; set; }
     }
 }

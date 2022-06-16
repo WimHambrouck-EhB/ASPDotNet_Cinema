@@ -17,21 +17,24 @@
 }
 else
 {
-    var screening = Model.Screenings.First();
+    var screeningWithSum = Model.Screenings.First();
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => screening.Screen)
+                    @Html.DisplayNameFor(model => screeningWithSum.Screening.Screen)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => screening.Movie)
+                    @Html.DisplayNameFor(model => screeningWithSum.Screening.Movie)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => screening.StartTime)
+                    @Html.DisplayNameFor(model => screeningWithSum.Screening.StartTime)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => screening.EndTime)
+                    @Html.DisplayNameFor(model => screeningWithSum.Screening.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => screeningWithSum.TicketsLeft)
                 </th>
                 <th></th>
             </tr>
@@ -39,22 +42,35 @@ else
         <tbody>
             @foreach (var item in Model.Screenings)
             {
-                <tr>
+                bool soldout = item.TicketsLeft <= 0;
+                <tr class="@(soldout ? "table-danger" : "")">
                     <td>
-                        @Html.DisplayFor(modelItem => item.ScreenId)
+                        @Html.DisplayFor(modelItem => item.Screening.ScreenId)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Movie.Title)
+                        @Html.DisplayFor(modelItem => item.Screening.Movie.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
+                        @Html.DisplayFor(modelItem => item.Screening.StartTime)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
+                        @Html.DisplayFor(modelItem => item.Screening.EndTime)
                     </td>
                     <td>
-                        <a asp-controller="Reservations" asp-action="Create" asp-route-screeningid="@item.Id">Order tickets</a> |
-                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">Details</a>
+                        @Html.DisplayFor(modelItem => item.TicketsLeft)
+                    </td>
+                    <td>
+                        @if (soldout)
+                        {
+                            <span>Sold out!</span>
+                        }
+                        else
+                        {
+                            <span>
+                                <a asp-controller="Reservations" asp-action="Create" asp-route-screeningid="@item.Screening.Id">Order tickets</a> |
+                                <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.Screening.MovieId">Details</a>
+                            </span>
+                        }
                     </td>
                 </tr>
             }

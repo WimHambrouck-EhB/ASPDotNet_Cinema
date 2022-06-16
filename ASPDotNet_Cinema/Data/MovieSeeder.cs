@@ -11,7 +11,7 @@ namespace ASPDotNet_Cinema.Data
         public static async Task Initialize(CinemaIdentityContext context)
         {
             //await context.Database.EnsureDeletedAsync();
-            //await context.Database.MigrateAsync();
+            await context.Database.MigrateAsync();
 
             if (!context.Movies.Any() && !context.Screens.Any() && !context.Screenings.Any())
             {
@@ -36,6 +36,7 @@ namespace ASPDotNet_Cinema.Data
                 var nu = DateTime.Now;
                 var vanavond20u = new DateTime(nu.Year, nu.Month, nu.Day, 20, 0, 0);
                 var vanavond22u = new DateTime(nu.Year, nu.Month, nu.Day, 22, 0, 0);
+                var vanavond23u = new DateTime(nu.Year, nu.Month, nu.Day, 23, 0, 0);
 
                 var morgen = new DateTime(nu.Year, nu.Month, nu.Day + 1, 20, 0, 0);
                 var overmorgen = new DateTime(nu.Year, nu.Month, nu.Day + 2, 20, 0, 0);
@@ -44,19 +45,23 @@ namespace ASPDotNet_Cinema.Data
                 var volgendeWeek1 = new DateTime(nu.Year, nu.Month, nu.Day + 8, 20, 0, 0);
                 var volgendeWeek2 = new DateTime(nu.Year, nu.Month, nu.Day + 9, 20, 0, 0);
 
-
-                context.Screenings.AddRange(new Screening[]
+                var screenings = new Screening[]
                 {
-                    new Screening { ScreenId = 1, Movie = movies[0], StartTime = vanavond20u },
-                    new Screening { ScreenId = 2, Movie = movies[0], StartTime = vanavond22u },
-                    new Screening { ScreenId = 3, Movie = movies[1], StartTime = vanavond22u },
+                    new Screening { ScreenId = 1, Movie = movies[0], StartTime = vanavond20u },//0
+                    new Screening { ScreenId = 2, Movie = movies[0], StartTime = vanavond22u },//1
+                    new Screening { ScreenId = 1, Movie = movies[1], StartTime = vanavond20u },//2
+                    new Screening { ScreenId = 3, Movie = movies[1], StartTime = vanavond23u },//3
                     new Screening { ScreenId = 1, Movie = movies[1], StartTime = morgen },
                     new Screening { ScreenId = 2, Movie = movies[2], StartTime = morgen },
                     new Screening { ScreenId = 2, Movie = movies[2], StartTime = overmorgen },
                     new Screening { ScreenId = 1, Movie = movies[0], StartTime = volgendeWeek },
                     new Screening { ScreenId = 2, Movie = movies[1], StartTime = volgendeWeek1 },
                     new Screening { ScreenId = 3, Movie = movies[2], StartTime = volgendeWeek2 }
-                });
+                };
+
+                context.Screenings.AddRange(screenings);
+
+                context.Reservations.Add(new Reservation { Screening = screenings[3], Amount = 15 });
 
                 await context.SaveChangesAsync();
 

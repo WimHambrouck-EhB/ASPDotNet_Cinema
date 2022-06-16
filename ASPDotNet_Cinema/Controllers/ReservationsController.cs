@@ -32,6 +32,7 @@ namespace ASPDotNet_Cinema.Controllers
         }
 
         // GET: Reservations/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,13 +42,21 @@ namespace ASPDotNet_Cinema.Controllers
 
             var reservation = await _context.Reservations
                 .Include(r => r.Screening)
+                .ThenInclude(s => s.Movie)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
             {
                 return NotFound();
             }
 
-            return View(reservation);
+            if (User.IsInRole(CinemaUser.STAFF_ROLE))
+            {
+                return View(reservation);
+            }
+            else
+            {
+                return View("Confirmation", reservation);
+            }
         }
 
         // GET: Reservations/Create
@@ -118,7 +127,7 @@ namespace ASPDotNet_Cinema.Controllers
                 }
                 else
                 {
-                    return View("Confirmation", reservation);
+                    return RedirectToAction(nameof(Details), new { id = reservation.Id }); ;
                 }
             }
 

@@ -5,6 +5,7 @@ using ASPDotNet_Cinema.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -50,12 +51,27 @@ namespace ASPDotNet_Cinema.Controllers
                     break;
             }
 
-            var screenings = _context.Screenings.Include(s => s.Movie)
-                                                .Where(s => s.StartTime >= startDate && s.StartTime < endDate)
-                                                .OrderBy(s => s.StartTime);
+            List<ScreeningWithSum> screeningWithSums = new List<ScreeningWithSum>();
+
+            await _context.Screenings
+                .Include(s => s.Movie)
+                .Include(s => s.Screen)
+                .Where(s => s.StartTime >= startDate && s.StartTime < endDate)
+                .OrderBy(s => s.StartTime)
+                .ForEachAsync(screening =>
+                {
+                    int amountOfReservationsForScreening = _context.Reservations.Where(r => r.ScreeningId == screening.Id)
+                                                                                .Sum(r => r.Amount);
+                    int amountLeft = screening.Screen.Capacity - amountOfReservationsForScreening;
+                    screeningWithSums.Add(new ScreeningWithSum
+                    {
+                        Screening = screening,
+                        TicketsLeft = amountLeft
+                    });
+                });
 
 
-            return View(new HomeIndexViewModel { Range = dateRange.Value, Screenings = await screenings.ToListAsync() });
+            return View(new HomeIndexViewModel { Range = dateRange.Value, Screenings = screeningWithSums });
         }
 
         /// <summary>
