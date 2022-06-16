@@ -14,9 +14,11 @@ namespace ASPDotNet_Cinema.Models
         
         [Required]
         [DisplayName("Start time")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime StartTime { get; set; }
 
         [DisplayName("End time")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]       
         public DateTime EndTime => StartTime.AddMinutes(Movie?.Duration ?? 0);
     }
 }

@@ -32,10 +32,7 @@
             @Html.DisplayNameFor(model => model.Duration)
         </dt>
         <dd class="col-sm-10">
-            @{
-                TimeSpan timeSpan = new TimeSpan(0, Model.Duration, 0);
-            }
-            @timeSpan.ToString(@"h\hmm\m")
+            @Html.DisplayFor(model => model.FormattedDuration)
         </dd>
     </dl>
 </div>

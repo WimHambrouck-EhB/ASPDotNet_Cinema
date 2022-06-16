@@ -19,7 +19,7 @@ namespace ASPDotNet_Cinema.Areas.Identity
             {
                 services.AddDbContext<CinemaIdentityContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("CinemaIdentityContextConnection")).EnableSensitiveDataLogging());
+                        context.Configuration.GetConnectionString("CinemaIdentityContextConnection")));
 
                 services.AddDefaultIdentity<CinemaUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddRoles<IdentityRole>()

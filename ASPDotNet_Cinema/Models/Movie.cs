@@ -1,4 +1,5 @@
 ﻿using ASPDotNet_Cinema.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ namespace ASPDotNet_Cinema.Models
     public class Movie
     {
         public int Id { get; set; }
-        
+
         [Required]
         public string Title { get; set; }
 
@@ -24,10 +25,29 @@ namespace ASPDotNet_Cinema.Models
 
         [DisplayFormat(NullDisplayText = "Unknown")]
         public string Director { get; set; }
-        
+
         [Required]
         [Range(1, int.MaxValue)]
         public int Duration { get; set; }
+
+        public string FormattedDuration
+        {
+            get
+            {
+                var hours = "hours";
+                var minutes = "minutes";
+                TimeSpan timeSpan = new TimeSpan(0, Duration, 0);
+                if (timeSpan.Hours == 1)
+                {
+                    hours = hours[..^1];
+                }
+                if (timeSpan.Minutes == 1)
+                {
+                    minutes = minutes[..^1];
+                }
+                return string.Format("{0:%h} {1} {0:%m} {2}", timeSpan, hours, minutes);
+            }
+        }
 
         public ICollection<Screening> Screenings { get; set; }  // collection navigation property. Voor het geval dat we alle voorstellingen van een film willen opvragen
 

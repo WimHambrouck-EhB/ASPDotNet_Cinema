@@ -10,6 +10,9 @@ namespace ASPDotNet_Cinema.Data
     {
         public static async Task Initialize(CinemaIdentityContext context)
         {
+            //await context.Database.EnsureDeletedAsync();
+            //await context.Database.MigrateAsync();
+
             if (!context.Movies.Any() && !context.Screens.Any() && !context.Screenings.Any())
             {
                 Movie[] movies =
@@ -46,7 +49,13 @@ namespace ASPDotNet_Cinema.Data
                 {
                     new Screening { ScreenId = 1, Movie = movies[0], StartTime = vanavond20u },
                     new Screening { ScreenId = 2, Movie = movies[0], StartTime = vanavond22u },
-                    new Screening { ScreenId = 3, Movie = movies[1], StartTime = vanavond22u }
+                    new Screening { ScreenId = 3, Movie = movies[1], StartTime = vanavond22u },
+                    new Screening { ScreenId = 1, Movie = movies[1], StartTime = morgen },
+                    new Screening { ScreenId = 2, Movie = movies[2], StartTime = morgen },
+                    new Screening { ScreenId = 2, Movie = movies[2], StartTime = overmorgen },
+                    new Screening { ScreenId = 1, Movie = movies[0], StartTime = volgendeWeek },
+                    new Screening { ScreenId = 2, Movie = movies[1], StartTime = volgendeWeek1 },
+                    new Screening { ScreenId = 3, Movie = movies[2], StartTime = volgendeWeek2 }
                 });
 
                 await context.SaveChangesAsync();

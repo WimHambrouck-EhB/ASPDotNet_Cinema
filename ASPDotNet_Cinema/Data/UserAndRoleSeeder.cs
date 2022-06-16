@@ -11,7 +11,7 @@ namespace ASPDotNet_Cinema.Areas.Identity.Data
 {
     public static class UserAndRoleSeeder
     {
-        // code gebaseerd op: https://docs.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-3.1#create-the-test-accounts-and-update-the-contacts-1
+        // code based on: https://docs.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-3.1#create-the-test-accounts-and-update-the-contacts-1
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetService<UserManager<CinemaUser>>();

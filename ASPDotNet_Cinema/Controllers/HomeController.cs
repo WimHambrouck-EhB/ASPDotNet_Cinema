@@ -37,9 +37,9 @@ namespace ASPDotNet_Cinema.Controllers
         public async Task SelfDestruct()
         {
             var theWorstMovieEverMade = new Movie { Title = "The Star Wars Holiday Special", Director = "Steve Binder", Ranking = 2.1m, Duration = 97 };
-            _context.Movies.RemoveRange(_context.Movies);
+            _context.Movies.RemoveRange(_context.Movies); // uiterst inefficiënt, maar gezien het een spielerei betreft, ga ik nu ook niet te veel moeite doen
             _context.Movies.Add(theWorstMovieEverMade);
-            var screenings = await _context.Screenings.ToArrayAsync();
+            var screenings = await _context.Screenings.ToListAsync();
             foreach (var screening in screenings)
             {
                 screening.Movie = theWorstMovieEverMade;
