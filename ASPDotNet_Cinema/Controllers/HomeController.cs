@@ -22,23 +22,40 @@ namespace ASPDotNet_Cinema.Controllers
             _context = context;
 
         }
-        public async Task<IActionResult> Index(DateRange? dateRange)
+        public async Task<IActionResult> Index(DateRange? dateRange, string sortOrder)
         {
             if (dateRange == null)
             {
                 dateRange = DateRange.Today;
             }
 
-            DateTime startDate, endDate;
-            DateTime currentDate = DateTime.Now;
+            ViewData["CurrentSort"] = sortOrder;
+            //ViewData["StartTimeSortParam"] = sortOrder ?? "StartTime";
+            ViewData["StartTimeSortParam"] = sortOrder == "StartTime" ? "StartTime_desc" : "StartTime";
+            ViewData["MovieTitleSortParam"] = sortOrder == "MovieTitle" ? "MovieTitle_desc" : "MovieTitle";
+            ViewData["RankingSortParam"] = sortOrder == "MovieRanking" ? "MovieRanking_desc" : "MovieRanking";
+
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "StartTime";
+            }
+
+            GetDates(dateRange, out DateTime startDate, out DateTime endDate);
+
+            return View(new HomeIndexViewModel { Range = dateRange.Value, Screenings = await GetScreeningsWithSums(startDate, endDate, sortOrder) });
+        }
+
+        private static void GetDates(DateRange? dateRange, out DateTime startDate, out DateTime endDate)
+        {
+            DateTime now = DateTime.Now;
             switch (dateRange.Value)
             {
                 case DateRange.ThisWeek:
-                    GetWeekDates(currentDate, out startDate, out endDate);
-                    startDate = currentDate;    // films die al voorbij zijn niet tonen
+                    GetWeekDates(now, out _, out endDate);
+                    startDate = now;    // films die al voorbij zijn niet tonen
                     break;
                 case DateRange.NextWeek:
-                    GetWeekDates(currentDate.AddDays(7), out startDate, out endDate);
+                    GetWeekDates(now.AddDays(7), out startDate, out endDate);
                     break;
                 //case DateRange.CustomWeek:
                 //    GetWeek(currentDate.AddDays(customOffset), out startOfWeek, out endOfWeek);
@@ -46,32 +63,10 @@ namespace ASPDotNet_Cinema.Controllers
                 //    break;
                 case DateRange.Today:
                 default:
-                    startDate = currentDate;
+                    startDate = now;
                     endDate = startDate.AddHours(23).AddMinutes(59);
                     break;
             }
-
-            List<ScreeningWithSum> screeningWithSums = new List<ScreeningWithSum>();
-
-            await _context.Screenings
-                .Include(s => s.Movie)
-                .Include(s => s.Screen)
-                .Where(s => s.StartTime >= startDate && s.StartTime < endDate)
-                .OrderBy(s => s.StartTime)
-                .ForEachAsync(screening =>
-                {
-                    int amountOfReservationsForScreening = _context.Reservations.Where(r => r.ScreeningId == screening.Id)
-                                                                                .Sum(r => r.Amount);
-                    int amountLeft = screening.Screen.Capacity - amountOfReservationsForScreening;
-                    screeningWithSums.Add(new ScreeningWithSum
-                    {
-                        Screening = screening,
-                        TicketsLeft = amountLeft
-                    });
-                });
-
-
-            return View(new HomeIndexViewModel { Range = dateRange.Value, Screenings = screeningWithSums });
         }
 
         /// <summary>
@@ -84,6 +79,41 @@ namespace ASPDotNet_Cinema.Controllers
             var offset = DayOfWeek.Monday - now.DayOfWeek;
             startOfWeek = now.AddDays(offset).Date;                         // maandag 00u00
             endOfWeek = startOfWeek.AddDays(6).AddHours(23).AddMinutes(59); // zondag 23u59
+        }
+
+        private async Task<List<ScreeningWithSum>> GetScreeningsWithSums(DateTime startDate, DateTime endDate, string sortOrder)
+        {
+            List<ScreeningWithSum> screeningWithSums = new List<ScreeningWithSum>();
+
+            var screenings = _context.Screenings
+                .Include(s => s.Movie)
+                .Include(s => s.Screen)
+                .Where(s => s.StartTime >= startDate && s.StartTime < endDate)
+                ;
+
+            IOrderedQueryable<Screening> orderedScreenings = sortOrder switch
+            {
+                "MovieTitle" => screenings.OrderBy(s => s.Movie.Title),
+                "MovieTitle_desc" => screenings.OrderByDescending(s => s.Movie.Title),
+                "MovieRanking" => screenings.OrderBy(s => s.Movie.Ranking),
+                "MovieRanking_desc" => screenings.OrderByDescending(s => s.Movie.Ranking),
+                "StartTime_desc" => screenings.OrderByDescending(s => s.StartTime),
+                _ => screenings.OrderBy(s => s.StartTime),
+            };
+
+            await orderedScreenings.ForEachAsync(screening =>
+            {
+                int amountOfReservationsForScreening = _context.Reservations.Where(r => r.ScreeningId == screening.Id)
+                                                                            .Sum(r => r.Amount);
+                int amountLeft = screening.Screen.Capacity - amountOfReservationsForScreening;
+                screeningWithSums.Add(new ScreeningWithSum
+                {
+                    Screening = screening,
+                    TicketsLeft = amountLeft
+                });
+            });
+
+            return screeningWithSums;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

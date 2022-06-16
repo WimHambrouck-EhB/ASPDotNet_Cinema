@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASPDotNet_Cinema.Models
 {
@@ -12,7 +13,7 @@ namespace ASPDotNet_Cinema.Models
         public int MovieId { get; set; }    // foreign key
         public Screen Screen { get; set; }  // navigation property, niet strik noodzakelijk voor EF, maar wel nuttig als programmeur
         public Movie Movie { get; set; }    // navigation property
-        
+
         [Required]
         [DisplayName("Start time")]
         [DisplayFormat(DataFormatString = "{0:" + DATE_FORMAT + "}")]

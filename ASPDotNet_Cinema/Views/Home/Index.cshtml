@@ -25,10 +25,13 @@ else
                     @Html.DisplayNameFor(model => screeningWithSum.Screening.Screen)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => screeningWithSum.Screening.Movie)
+                    <a asp-action="Index" asp-route-dateRange="@Model.Range" asp-route-sortOrder="@ViewData["MovieTitleSortParam"]">@Html.DisplayNameFor(model => screeningWithSum.Screening.Movie)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => screeningWithSum.Screening.StartTime)
+                    <a asp-action="Index" asp-route-dateRange="@Model.Range" asp-route-sortOrder="@ViewData["RankingSortParam"]">@Html.DisplayNameFor(model => screeningWithSum.Screening.Movie.Ranking)</a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-dateRange="@Model.Range" asp-route-sortOrder="@ViewData["StartTimeSortParam"]">@Html.DisplayNameFor(model => screeningWithSum.Screening.StartTime)</a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => screeningWithSum.Screening.EndTime)
@@ -49,6 +52,9 @@ else
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Screening.Movie.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Screening.Movie.Ranking)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Screening.StartTime)
