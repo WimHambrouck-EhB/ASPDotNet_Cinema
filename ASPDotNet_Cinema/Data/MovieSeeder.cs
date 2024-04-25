@@ -38,12 +38,12 @@ namespace ASPDotNet_Cinema.Data
                 var vanavond22u = new DateTime(nu.Year, nu.Month, nu.Day, 22, 0, 0);
                 var vanavond23u = new DateTime(nu.Year, nu.Month, nu.Day, 23, 0, 0);
 
-                var morgen = new DateTime(nu.Year, nu.Month, nu.Day + 1, 20, 0, 0);
-                var overmorgen = new DateTime(nu.Year, nu.Month, nu.Day + 2, 20, 0, 0);
+                var morgen = vanavond20u.AddDays(1);
+                var overmorgen = vanavond20u.AddDays(2);
 
-                var volgendeWeek = new DateTime(nu.Year, nu.Month, nu.Day + 7, 20, 0, 0);
-                var volgendeWeek1 = new DateTime(nu.Year, nu.Month, nu.Day + 8, 20, 0, 0);
-                var volgendeWeek2 = new DateTime(nu.Year, nu.Month, nu.Day + 9, 20, 0, 0);
+                var volgendeWeek = vanavond20u.AddDays(7);
+                var volgendeWeek1 = vanavond20u.AddDays(8);
+                var volgendeWeek2 = vanavond20u.AddDays(9);
 
                 var screenings = new Screening[]
                 {
