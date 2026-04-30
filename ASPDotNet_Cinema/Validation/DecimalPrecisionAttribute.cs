@@ -6,18 +6,17 @@ namespace ASPDotNet_Cinema.Validation
 {
     // bron: https://stackoverflow.com/a/62394344
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-    public class DecimalPrecisionAttribute : ValidationAttribute
+    public class DecimalPrecisionAttribute(uint decimalPrecision) : ValidationAttribute
     {
-        private readonly uint _decimalPrecision;
 
-        public DecimalPrecisionAttribute(uint decimalPrecision)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            _decimalPrecision = decimalPrecision;
-        }
+            if (!(value is null || value is decimal d && HasPrecision(d, decimalPrecision)))
+            {
+                return new ValidationResult(ErrorMessage ?? $"The field {validationContext.DisplayName} must be a decimal number with at most {decimalPrecision} digits after the decimal point.");
+            }
 
-        public override bool IsValid(object value)
-        {
-            return value is null || value is decimal d && HasPrecision(d, _decimalPrecision);
+            return ValidationResult.Success;
         }
 
         private static bool HasPrecision(decimal value, uint precision)
