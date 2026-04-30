@@ -24,10 +24,7 @@ namespace ASPDotNet_Cinema.Controllers
         }
         public async Task<IActionResult> Index(DateRange? dateRange, string sortOrder)
         {
-            if (dateRange == null)
-            {
-                dateRange = DateRange.Today;
-            }
+            dateRange ??= DateRange.Today;
 
             ViewData["CurrentSort"] = sortOrder;
             //ViewData["StartTimeSortParam"] = sortOrder ?? "StartTime";
@@ -83,7 +80,7 @@ namespace ASPDotNet_Cinema.Controllers
 
         private async Task<List<ScreeningWithSum>> GetScreeningsWithSums(DateTime startDate, DateTime endDate, string sortOrder)
         {
-            List<ScreeningWithSum> screeningWithSums = new List<ScreeningWithSum>();
+            List<ScreeningWithSum> screeningWithSums = [];
 
             var screenings = _context.Screenings
                 .Include(s => s.Movie)

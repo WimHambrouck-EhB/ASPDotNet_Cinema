@@ -20,7 +20,7 @@ namespace ASPDotNet_Cinema.Models
                                             // Opgelet: Dit is DB-afhankelijk (bij Oracle zou dit bijvoorbeeld NUMBER(3,1) moeten zijn)
         [DisplayFormat(DataFormatString = "{0:F1}", ApplyFormatInEditMode = true)]  // ook bij weergave rankings afronden (standaard verschijnen getallen met 2 cijfers na de komma)
                                                                                     // https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings
-                                                                                    // https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.displayformatattribute.dataformatstring?view=netcore-3.1#system-componentmodel-dataannotations-displayformatattribute-dataformatstring)
+                                                                                    // https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.displayformatattribute.dataformatstring?view=net-8.0#system-componentmodel-dataannotations-displayformatattribute-dataformatstring
         public decimal Ranking { get; set; }
 
         [DisplayFormat(NullDisplayText = "Unknown")]

@@ -11,7 +11,7 @@ namespace ASPDotNet_Cinema.Areas.Identity.Data
 {
     public static class UserAndRoleSeeder
     {
-        // code based on: https://docs.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-3.1#create-the-test-accounts-and-update-the-contacts-1
+        // code based on: https://learn.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-8.0#create-the-test-accounts-and-update-the-contacts-1
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetService<UserManager<CinemaUser>>();
@@ -29,7 +29,7 @@ namespace ASPDotNet_Cinema.Areas.Identity.Data
 
                 // Wachtwoord in de broncode is uiteraard onveilig, maar is nu om het voorbeeld niet te complex te maken
                 // Normaal maak je gebruik van secrets:
-                // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows 
+                // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0
                 await userManager.CreateAsync(user, "Eh)t*kA7");
 
 
